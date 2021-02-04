@@ -1,0 +1,136 @@
+﻿<Window x:Class="FlamyPOS.TableEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FlamyPOS"
+        mc:Ignorable="d"
+        Title="TablesModify" WindowState="Maximized" WindowStyle="None" Loaded="Window_Loaded">
+    <Window.Resources>
+        <Style x:Key="watermarkTextBox" TargetType="{x:Type TextBox}">
+            <Setter Property="MinWidth" Value="25"/>
+            <Setter Property="MaxHeight" Value="50"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border BorderBrush="#808080" BorderThickness="2" Background="White">
+                            <Grid>
+                                <Label Content="{TemplateBinding Tag}" x:Name="defaultText"
+                                       Visibility="Hidden"
+                                       FontSize="12"
+                                       Foreground="Gray"
+                                       HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+                                <ScrollViewer x:Name="PART_ContentHost" Margin="5" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Text" Value=""/>
+                                    <Condition Property="IsKeyboardFocusWithin" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="defaultText" Property="Visibility" Value="Visible"/>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <DockPanel MinHeight="40"
+                   LastChildFill="True">
+            <DockPanel.Background>
+                <LinearGradientBrush>
+                    <GradientStop Color="#5a5782" Offset="0.2"/>
+                    <GradientStop Color="MediumPurple" Offset="0.6"/>
+                    <GradientStop Color="Purple" Offset="1"/>
+                </LinearGradientBrush>
+            </DockPanel.Background>
+
+            <Button Style="{StaticResource transparentButton}"
+                    Click="ExitButton_Click"
+                    DockPanel.Dock="Left"
+                    MinWidth="140">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Icons\ic_green_back.png" MaxWidth="25" MaxHeight="25"/>
+                    <TextBlock Margin="10 0 0 0">Back</TextBlock>
+                </StackPanel>
+            </Button>
+
+            <Button Style="{StaticResource transparentButton}"
+                    Click="SaveAndReturn_Click"
+                    DockPanel.Dock="Right"
+                    MinWidth="250">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>Save and Return</TextBlock>
+                    <Image Source="Icons\ic_floppy_disk.png" MaxWidth="25" MaxHeight="25" Margin="10 0 0 0"/>
+                </StackPanel>
+            </Button>
+
+            <Label Content="Table Layout Editor" 
+               Foreground="White" 
+               FontSize="20" MinHeight="40" 
+               VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ></Label>
+        </DockPanel>
+
+        <UniformGrid Columns="5" Grid.Row="2">
+            <Button Click="Add_Button_Click" 
+                    IsDefault="True"
+                    Style="{StaticResource chromeThemeBtn}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Icons\if_CircledPlus.png" MaxWidth="25" MaxHeight="25" Margin="5 0 20 0"/>
+                    <TextBlock>Add Table</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Click="Show_Data_Click" Style="{StaticResource chromeThemeBtn}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Icons\if_information.png" MaxHeight="25" MaxWidth="25" Margin="5 0 20 0"></Image>
+                    <TextBlock>Check Data</TextBlock>
+                </StackPanel>
+            </Button>
+                <StackPanel Grid.ColumnSpan="2" Margin="5 0 0 0">
+                <Label FontSize="18" FontWeight="Medium">Table Name:</Label>
+                <TextBox x:Name="tableNameTextBox"
+                         Tag="Table Name"
+                         Style="{StaticResource watermarkTextBox}"
+                         Text="{Binding TableNameTextBoxContent, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="5 0 5 5" MinHeight="30"
+                         VerticalContentAlignment="Center"></TextBox>
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Center" Margin="5 0 0 0">
+                <Label FontSize="18" FontWeight="Medium">Layout Details</Label>
+                <Label Content="{Binding ElementName=TableLayout, Path=ActualWidth}" ContentStringFormat="Layout Width: {0}"></Label>
+                <Label Content="{Binding ElementName=TableLayout, Path=ActualHeight}" ContentStringFormat="Layout Height : {0}"></Label>
+            </StackPanel>
+
+            <StackPanel Margin="5 0 0 0" Visibility="Hidden">
+                <Label FontSize="18" FontWeight="Medium">Button Dimensions</Label>
+                <TextBox x:Name="btnHeightTextBox" Tag="Height    (Default: 80)" Style="{StaticResource watermarkTextBox}"/>
+                <TextBox x:Name="btnWidthTextBox" Tag="Width     (Default: 125)" Style="{StaticResource watermarkTextBox}"/>
+            </StackPanel>
+
+        </UniformGrid>
+
+        <Grid Grid.Row="3" Background="AntiqueWhite">
+            <GroupBox Grid.Row="3" Foreground="#bfbed3" Background="#bfbed3" BorderBrush="LightCoral" BorderThickness="2" Margin="5 0 5 5" Padding="10">
+                <GroupBox.Header>
+                    <Border CornerRadius="10" Background="#5a5782" Padding="5">
+                        <TextBlock Text="Table Overview" FontSize="25" Foreground="White"/>
+                    </Border>
+                </GroupBox.Header>
+                <Canvas x:Name="TableLayout">
+                    
+                </Canvas>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</Window>

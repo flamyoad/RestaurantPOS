@@ -1,0 +1,47 @@
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\bin\Release\Sounds\buttonClickSound.wav
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\bin\Release\Restaurant POS.exe.config
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\bin\Release\Restaurant POS.exe
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\bin\Release\Restaurant POS.pdb
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\bin\Release\Google.Protobuf.dll
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\bin\Release\MySql.Data.dll
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\bin\Release\Google.Protobuf.xml
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\bin\Release\MySql.Data.xml
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\AddProductDialog.g.cs
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\AdminOverview.g.cs
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\ChangeDueWindow.g.cs
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\ChangePriceDialog.g.cs
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\MainWindow.g.cs
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\OrderingWindow.g.cs
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\PaymentWindow.g.cs
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\TableButton.g.cs
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\TableChange.g.cs
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\TablesEditor.g.cs
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\TablesOverview.g.cs
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\UserProfileWindow.g.cs
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\Window1.g.cs
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\App.g.cs
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\Restaurant POS_Content.g.cs
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\GeneratedInternalTypeHelper.g.cs
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\Restaurant POS_MarkupCompile.cache
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\Restaurant POS_MarkupCompile.lref
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\App.baml
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\AddProductDialog.baml
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\AdminOverview.baml
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\ChangeDueWindow.baml
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\ChangePriceDialog.baml
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\MainWindow.baml
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\OrderingWindow.baml
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\PaymentWindow.baml
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\TableButton.baml
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\TableChange.baml
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\TablesEditor.baml
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\TablesOverview.baml
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\UserProfileWindow.baml
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\Window1.baml
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\Restaurant POS.g.resources
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\FlamyPOS.Properties.Resources.resources
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\Restaurant POS.csproj.GenerateResource.Cache
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\Restaurant POS.csproj.CoreCompileInputs.cache
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\Restaurant POS.exe
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\Restaurant POS.pdb
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Release\Restaurant POS.csprojResolveAssemblyReference.cache

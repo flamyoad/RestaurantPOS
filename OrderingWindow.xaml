@@ -1,0 +1,423 @@
+﻿<Window x:Class="FlamyPOS.OrderingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FlamyPOS"
+        mc:Ignorable="d"
+        Title="Flamy POS" Height="450" Width="700" WindowState="Maximized" WindowStyle="None">
+
+    <Window.Resources>
+        <LinearGradientBrush x:Key="yellowBrush">
+            <GradientStop Color="White" Offset="0"/>
+            <GradientStop Color="Yellow" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="orangeBrush">
+            <GradientStop Color="#ffcc99" Offset="0"/>
+            <GradientStop Color="#ffcc66" Offset="1.0"/>
+        </LinearGradientBrush>
+
+        <!-- Styles & Templates-->
+        <Style x:Key="gridHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                        <TextBlock Text="{TemplateBinding Content}" Padding="5" Width="{TemplateBinding Width}" TextAlignment="Left">
+                            <TextBlock.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Offset="0.0" Color="#373638" />
+                                    <GradientStop Offset="1.0" Color="#77797B" />
+                                </LinearGradientBrush>
+                            </TextBlock.Background>
+                        </TextBlock>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+
+        <Style x:Key="menuItemBtn" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="White" BorderThickness="3" CornerRadius="8">
+                            <Border.Background>
+                                <LinearGradientBrush>
+                                    <GradientStop Color="#ffcc99" Offset="0"/>
+                                    <GradientStop Color="#ffcc66" Offset="1.0"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Grid>
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="border"
+                                            Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0"
+                                                                    Value="{StaticResource yellowBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="border"
+                                            Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0"
+                                                                    Value="{StaticResource orangeBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect BlurRadius="20" 
+                                                          ShadowDepth="5"
+                                                          Color="Black"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="#009999"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style x:Key="menuItemCategoryBtnLabel" TargetType="{x:Type Label}">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="FontFamily" Value="Fonts\Robotto-Regular.ttf"/>
+            <Setter Property="MinHeight" Value="40"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Background" Value="{StaticResource grayGradientBrush}"/>
+            <Setter Property="Opacity" Value="0.8"/>
+
+        </Style>
+
+        <Style x:Key="menuItemCategoryBtn" TargetType="{x:Type Button}">
+            
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="10" BorderBrush="BurlyWood" BorderThickness="3">
+                            <Label x:Name="label"
+                                   Style="{StaticResource menuItemCategoryBtnLabel}"
+                                   Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Tag}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="label" Property="Foreground" Value="Lavender"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="whiteFonts" TargetType="{x:Type Label}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="24"/>
+        </Style>
+
+        <Style x:Key="submitBtnStyle" TargetType="{x:Type Button}">
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="MinHeight" Value="100"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Background="#00C853" BorderBrush="{TemplateBinding Background}" BorderThickness="2">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <!--<EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetProperty="Background.Color"
+                                                        Storyboard.TargetName="border"
+                                                        AutoReverse="True" 
+                                                        Duration="0:0:1" To="LightGreen" RepeatBehavior="Forever"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>-->
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                                        Storyboard.TargetProperty="Background.Color"
+                                                        To="#00E676" Duration="0:0:.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                                        Storyboard.TargetProperty="Background.Color"
+                                                        Duration="0:0:.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect BlurRadius="20" ShadowDepth="5" Color="Black"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="sideBtnStyle" TargetType="{x:Type Button}">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Fonts\Roboto-Regular.ttf"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="Gray" BorderThickness="2" Background="#5A5858" CornerRadius="5">
+                            <Grid>
+                                <ContentPresenter x:Name="content"
+                                              VerticalAlignment="Center" 
+                                              HorizontalAlignment="Center" 
+                                              Margin="{TemplateBinding Padding}">
+                                </ContentPresenter>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                                        Storyboard.TargetProperty="Background.Color" 
+                                                        To="#777474" Duration="0:0:.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border" 
+                                                        Storyboard.TargetProperty="Background.Color" 
+                                                        Duration="0:0:.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+<!-- UI Code-->
+    <Grid Margin="5" Background="PapayaWhip">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="2.5*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Column="0" Margin="5" Background="DarkGray">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0"
+                    Margin="5" 
+                    Style="{StaticResource blackThemeBtn}"
+                    Command="{Binding ChangeTableCommand}"
+                    IsEnabled="{Binding TableChangeEnabled}"
+                    Content="Change&#10;Table"/>
+            
+            <Button Grid.Row="1"
+                    Margin="5" 
+                    Style="{StaticResource blackThemeBtn}" 
+                    Command="{Binding PaymentCommand}"
+                    IsEnabled="{Binding PaymentEnabled}"
+                    Content="Payment"/>
+            
+            <Button IsEnabled="{Binding IsAdmin}"
+                    Grid.Row="2" 
+                    Margin="5" 
+                    Style="{StaticResource blackThemeBtn}" 
+                    Content="Void Order"/>
+            
+            <Button Grid.Row="3"
+                    Margin="5"
+                    Style="{StaticResource blackThemeBtn}" 
+                    Command="{Binding ReturnMenuCommand}" 
+                    Content="Return"/>
+            
+            <Button Grid.Row="4" 
+                    Margin="5" 
+                    Style="{StaticResource blackThemeBtn}" 
+                    Command="{Binding LogOutCommand}"
+                    Content="Log Out"/>
+        </Grid>
+
+        <Grid Grid.Column="1" Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" MinHeight="100" CornerRadius="10"
+                        BorderBrush="DarkSlateGray" BorderThickness="3" Background="Gray">
+                    <StackPanel>
+                        <Label Style="{StaticResource whiteFonts}">Dine in</Label>
+                        <Label Style="{StaticResource whiteFonts}" Content="{Binding Date}" ContentStringFormat="Started at {0}"/>
+                        <Label Style="{StaticResource whiteFonts}" Content="{Binding TableName}" ContentStringFormat="Table No: {0}"/>
+                    </StackPanel>
+                </Border>
+                <ListView Grid.Row="1" 
+                          ItemsSource="{Binding OrderLines}" 
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          Margin="5">
+                    <ListView.View>
+                        <GridView>
+                            <GridView.Columns>
+                                <!-- Qty header-->
+                                <GridViewColumn Header="Qty" HeaderContainerStyle="{StaticResource gridHeaderStyle}" Width="90">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Quantity}" FontSize="36"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                
+                                <!-- Product header-->
+                                <GridViewColumn Header="Product" HeaderContainerStyle="{StaticResource gridHeaderStyle}" Width="300">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding SelectedProduct.Name}" FontSize="18"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                
+                                <!-- Total header-->
+                                <GridViewColumn Header="Total" HeaderContainerStyle="{StaticResource gridHeaderStyle}" Width="130">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding TotalPrice, StringFormat='{}RM {0:F2}'}" FontSize="22"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView.Columns>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Label Grid.Row="2" MaxHeight="150" Margin="5 20 5 20"
+                       Foreground="#00C326" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"
+                       Content="{Binding TotalBill}" ContentStringFormat="Total: RM {0:F2}"/>
+                <Button Content="Submit" Grid.Row="3"
+                        Style="{StaticResource submitBtnStyle}"
+                        Command="{Binding SubmitCommand}">
+                </Button>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0" Command="{Binding AppetizersMenuCommand}"
+                    Style="{StaticResource menuItemCategoryBtn}" Tag="Appetizers">
+                <Button.Background>
+                    <ImageBrush ImageSource="Images\Appetizers.jpg"/>
+                </Button.Background>
+            </Button>
+
+            <Button Grid.Row="1" Command="{Binding MainDishesMenuCommand}"
+                    Style="{StaticResource menuItemCategoryBtn}" Tag="Main Dishes">
+                <Button.Background>
+                    <ImageBrush ImageSource="Images\MainDish.jpg"/>
+                </Button.Background>
+            </Button>
+
+            <Button Grid.Row="2" Command="{Binding BeveragesMenuCommand}"
+                    Style="{StaticResource menuItemCategoryBtn}" Tag="Beverage">
+                <Button.Background>
+                    <ImageBrush ImageSource="Images\Beverages.jpg"/>
+                </Button.Background>
+            </Button>
+
+            <Button Grid.Row="3" Command="{Binding DessertsMenuCommand}"
+                    Style="{StaticResource menuItemCategoryBtn}" Tag="Dessert">
+                <Button.Background>
+                    <ImageBrush ImageSource="Images\Desserts.jpg"/>
+                </Button.Background>
+            </Button>
+
+            <Button Grid.Row="4" Command="{Binding OthersMenuCommand}"
+                    Style="{StaticResource menuItemCategoryBtn}" Tag="Others">
+                <Button.Background>
+                    <LinearGradientBrush>
+                        <GradientStop Color="LightBlue" Offset="0"/>
+                        <GradientStop Color="Blue" Offset="0.2"/>
+                        <GradientStop Color="Purple" Offset="0.5"/>
+                        <GradientStop Color="White" Offset="0.8"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+        </Grid>
+
+        <ScrollViewer Grid.Column="3" >
+            <ItemsControl x:Name="itemControl" ItemsSource="{Binding ListOfProducts}" Background="#d0d2ff">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Style="{StaticResource menuItemBtn}"
+                                Command="{Binding ElementName=itemControl, Path=DataContext.ClickMenuItemCommand}" CommandParameter="{Binding}"
+                                Width="120" Height="120" Margin="5">
+                            <TextBlock Width="Auto" Height="Auto" Margin="5" Text="{Binding Name}" TextWrapping="WrapWithOverflow"/>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+
+    </Grid>
+</Window>

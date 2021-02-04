@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="FlamyPOS.TableButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FlamyPOS"
+             mc:Ignorable="d" 
+             d:DesignHeight="75" d:DesignWidth="75">
+    <Grid>
+        <Rectangle x:Name="rect" Stroke="MediumAquamarine" StrokeThickness="3">
+            <Rectangle.Style>
+                <Style TargetType="{x:Type Rectangle}">
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect BlurRadius="5" 
+                                              ShadowDepth="8"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Fill" Value="#444242"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"  Value="IsTaken">
+                            <Setter Property="Fill" Value="#6666ff"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Rectangle.Style>
+            <Rectangle.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Delete" Click="MenuItem_Delete_Click"/>
+                </ContextMenu>
+            </Rectangle.ContextMenu>
+        </Rectangle>
+        <TextBlock Name="TableNameTextBlock"
+                   Foreground="White"
+                   FontSize="24" 
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Center"/>
+    </Grid>
+</UserControl>

@@ -1,0 +1,20 @@
+﻿Restaurant POS
+
+
+winexe
+C#
+.cs
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\obj\Debug\
+FlamyPOS
+none
+false
+DEBUG;TRACE
+C:\Users\user\source\WPF Project\Restaurant POS\Restaurant POS\App.xaml
+13745110288
+1497695459
+45471410619
+231520010409
+AddProductDialog.xaml;AdminOverview.xaml;ChangeDueWindow.xaml;ChangePriceDialog.xaml;MainWindow.xaml;OrderingWindow.xaml;PaymentWindow.xaml;TableButton.xaml;TableChange.xaml;TablesEditor.xaml;TablesOverview.xaml;UserProfileWindow.xaml;Window1.xaml;
+
+False
+

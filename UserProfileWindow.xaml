@@ -1,0 +1,223 @@
+﻿<Window x:Class="FlamyPOS.UserProfileWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FlamyPOS"
+        mc:Ignorable="d"
+        Title="UserProfileWindow" WindowState="Maximized" WindowStyle="None">
+    <Window.Resources>
+        <LinearGradientBrush x:Key="PurpleShadeGradient" StartPoint="0,1" EndPoint="1,0">
+            <GradientStop Color="#7B68EE" Offset="0"/>
+            <GradientStop Color="#6A5ACD" Offset="0.3"/>
+            <GradientStop Color="#8A2BE2" Offset="0.6"/>
+            <GradientStop Color="#9400D3" Offset="0.8"/>
+        </LinearGradientBrush>
+        
+        
+
+        <!-- blueTabButton -->
+        <Style x:Key="blueTabButton" TargetType="{x:Type TabItem}">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontFamily" Value="Fonts\Robot-Regular.ttf"/>
+            <Setter Property="MinHeight" Value="90"/>
+            <Setter Property="MinWidth" Value="260"/>
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Border x:Name="border" BorderThickness="0,0,0,5" BorderBrush="White">
+                            <ContentPresenter
+                                ContentSource="Header"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="MediumPurple"/>
+                                <Setter TargetName="border" Property="Background" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                                <Setter TargetName="border" Property="Background" Value="White"/>
+                                <Setter Property="Foreground" Value="LightGray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- passwordBox-->
+        <Style TargetType="{x:Type PasswordBox}">
+            <Setter Property="MinWidth" Value="170"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type PasswordBox}">
+                        <Border BorderBrush="#808080" BorderThickness="2" Background="White">
+                            <Grid>
+                                <Label x:Name="label"
+                                       Visibility="Hidden"
+                                       FontSize="16"
+                                       Foreground="Gray"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Margin="5">Password (Numeric only)</Label>
+                                <ScrollViewer x:Name="PART_ContentHost" Margin="5"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsKeyboardFocusWithin" Value="False"/>
+                                    <Condition Property="Tag" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="label" Property="Visibility" Value="Visible"/>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel MinHeight="40"
+                   LastChildFill="True">
+            <DockPanel.Background>
+                <LinearGradientBrush>
+                    <GradientStop Color="#5a5782" Offset="0.2"/>
+                    <GradientStop Color="MediumPurple" Offset="0.6"/>
+                    <GradientStop Color="Purple" Offset="1"/>
+                </LinearGradientBrush>
+            </DockPanel.Background>
+
+            <Button Command="{Binding ReturnCommand}"
+                    Style="{StaticResource transparentButton}"
+                    DockPanel.Dock="Left"
+                    MinWidth="140">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Icons\ic_green_back.png" MaxWidth="25" MaxHeight="25"/>
+                    <TextBlock Margin="10 0 0 0">Back</TextBlock>
+                </StackPanel>
+            </Button>
+
+            <Label Content="Account Management" 
+               Foreground="White" 
+               Margin="0,0,135,0"
+               FontSize="20" MinHeight="40" 
+               VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ></Label>
+        </DockPanel>
+
+        <TabControl Grid.Row="1">
+            <TabControl.Resources>
+                <Style TargetType="{x:Type TabPanel}">
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                </Style>
+            </TabControl.Resources>
+            <TabItem Header="User Profile" MinWidth="350" Style="{StaticResource blueTabButton}">
+                <StackPanel Margin="25">
+                    <Image Margin="0,25,0,0" Source="Images\staff3.jpg" MaxHeight="200" MaxWidth="200"/>
+                    <Grid HorizontalAlignment="Center" Margin="75">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Margin="5">
+                            <Label FontWeight="Regular">Name: </Label>
+                            <Label FontWeight="Regular">Position:</Label>
+                            <Label FontWeight="Regular">Joining Date:</Label>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="5">
+                            <Label Content="{Binding CurrentUser.Name}"/>
+                            <Label Content="{Binding CurrentUser.Position}"/>
+                            <Label Content="{Binding CurrentUser.JoinedDate}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Change Password" MinWidth="350" Style="{StaticResource blueTabButton}">
+                <Grid Margin="25"
+                      HorizontalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Image Source="Images\passcode.png"
+                           Grid.Row="0" Grid.ColumnSpan="2"
+                           Height="200" Width="200"
+                           Margin="25,25,25,50"/>
+                    <Label Grid.Row="1" Grid.Column="0">Current Passcode: </Label>
+                    <Label Grid.Row="2" Grid.Column="0">New Passcode:</Label>
+                    <Label Grid.Row="3" Grid.Column="0">Confirm Passcode:</Label>
+                    <PasswordBox x:Name="CurrentPasscodeBox" 
+                                 Grid.Row="1" Grid.Column="1"/>
+                    <PasswordBox x:Name="NewPasscodeBox"
+                                 Grid.Row="2" Grid.Column="1"/>
+                    <PasswordBox x:Name="ConfirmPasscodeBox" Grid.Row="3" 
+                                 Grid.Column="1"/>
+
+                    <Button Grid.Row="4" 
+                            Grid.ColumnSpan="2" 
+                            FontWeight="Regular"
+                            Margin="0,50,0,0"
+                            Click="Change_Passcode_ButtonClick"
+                            Style="{StaticResource blackThemeBtn}"
+                            MinWidth="250">Submit</Button>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Account Removal" MinWidth="350" Style="{StaticResource blueTabButton}">
+                <StackPanel Margin="230,10,150,10">
+                    <Image Source="Images\trashbin.png" Width="200" Height="200"/>
+                    <Label FontSize="30" FontFamily="Fonts\Roboto-Regular.ttf">Delete your account here</Label>
+                    <Label FontWeight="Regular" FontSize="24" Foreground="Gray">We're sorry to see you go.</Label>
+                    <Label FontSize="24" Margin="0,45,0,0">Before you go...</Label>
+                    <Separator/>
+                    <BulletDecorator>
+                        <BulletDecorator.Bullet>
+                            <Ellipse Height="10" Width="10" Fill="MediumPurple"/>
+                        </BulletDecorator.Bullet>
+                        <Label FontWeight="Regular"
+                               FontFamily="Fonts\Roboto-Regular.ttf"
+                               FontSize="24" xml:space="preserve">  Account deletion is final. There will be no way to restore your account.</Label>
+                    </BulletDecorator>
+                    <Label FontWeight="Regular"
+                           Margin="0,25,0,0"
+                           Foreground="Gray"
+                           FontSize="22"
+                           FontFamily="Fonts\Roboto-Regular.ttf">To continue, enter your passcode below</Label>
+                    <DockPanel LastChildFill="True">
+                        <Button Click="DeleteAccountButton_Click"
+                                FontWeight="Regular"
+                                FontSize="20"
+                                DockPanel.Dock="Right"
+                                Style="{StaticResource redThemeBtn}"
+                                Margin="25,0,0,0"
+                                MinHeight="50"
+                                MinWidth="300">Delete account</Button>
+                        <PasswordBox x:Name="DeleteAccountPasswordBox"/>
+                    </DockPanel>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

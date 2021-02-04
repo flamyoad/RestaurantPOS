@@ -1,0 +1,589 @@
+﻿<Window x:Class="FlamyPOS.AdminOverview"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FlamyPOS.Utilities"
+        mc:Ignorable="d"
+        WindowState="Maximized" WindowStyle="None"
+        Title="AdminOverview">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"/>
+
+        <LinearGradientBrush x:Key="backgroundBrush" StartPoint="0.5,0" EndPoint="0.5,1.0">
+            <GradientStop Color="#1a1aff" Offset="0"/> 
+            <GradientStop Color="#0000cc" Offset="0.1"/>
+            <GradientStop Color=" #006666" Offset="0.5"/>
+            <GradientStop Color="#008000" Offset="0.6"/>
+            <GradientStop Color="#001a00" Offset="0.9"/>
+        </LinearGradientBrush>
+
+        <!-- usernameTextBox-->
+        <Style x:Key="username" TargetType="{x:Type TextBox}">
+            <Setter Property="MinWidth" Value="170"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border BorderBrush="#808080" BorderThickness="2" Background="White">
+                            <Grid>
+                                <Label Content="{TemplateBinding Tag}" x:Name="defaultText"
+                                       Margin="5"
+                                       Visibility="Hidden"
+                                       FontSize="16"
+                                       Foreground="Gray"
+                                       HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+                                <ScrollViewer x:Name="PART_ContentHost" Margin="5" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Text" Value=""/>
+                                    <Condition Property="IsKeyboardFocusWithin" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="defaultText" Property="Visibility" Value="Visible"/>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- passwordBox-->
+        <Style TargetType="{x:Type PasswordBox}">
+            <Setter Property="MinWidth" Value="170"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type PasswordBox}">
+                        <Border BorderBrush="#808080" BorderThickness="2" Background="White">
+                            <Grid>
+                                <Label x:Name="label"
+                                       Visibility="Hidden"
+                                       FontSize="16"
+                                       Foreground="Gray"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Margin="5">Password (Numeric only)</Label>
+                                <ScrollViewer x:Name="PART_ContentHost" Margin="5"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsKeyboardFocusWithin" Value="False"/>
+                                    <Condition Property="Tag" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="label" Property="Visibility" Value="Visible"/>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- Purple Tabitem -->
+        <Style x:Key="purpleTab" TargetType="{x:Type TabItem}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Fonts\Robot-Regular.ttf"/>
+            <Setter Property="MinHeight" Value="90"/>
+            <Setter Property="MinWidth" Value="200"/>
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Border x:Name="border" BorderThickness="0,0,5,0" BorderBrush="White">
+                            <ContentPresenter
+                                ContentSource="Header"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                                <Setter TargetName="border" Property="Background" Value="#ab47bc"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#5a5782"/>
+                                <Setter TargetName="border" Property="Background" Value="#5a5782 "/>
+                                <Setter Property="Foreground" Value="#85adad"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- blueTabButton -->
+        <Style x:Key="blueTabButton" TargetType="{x:Type TabItem}">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontFamily" Value="Fonts\Robot-Regular.ttf"/>
+            <Setter Property="MinHeight" Value="90"/>
+            <Setter Property="MinWidth" Value="260"/>
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Border x:Name="border" BorderThickness="0,0,0,5" BorderBrush="White">
+                            <ContentPresenter
+                                ContentSource="Header"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="MediumPurple"/>
+                                <Setter TargetName="border" Property="Background" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                                <Setter TargetName="border" Property="Background" Value="White"/>
+                                <Setter Property="Foreground" Value="LightGray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- addStaffRadioBtn-->
+        <Style x:Key="addStaffRadioBtn" TargetType="{x:Type RadioButton}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Margin" Value="10,10,10,0"/>
+        </Style>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Row 0 -->
+        <Label Content="{Binding Time}" Background="#5a5782" Foreground="White" 
+               FontSize="20" MinHeight="35" 
+               VerticalContentAlignment="Center" 
+               HorizontalContentAlignment="Center"/>
+
+        <!-- Row 1-->
+        <DockPanel Grid.Row="1" LastChildFill="False" Background="MediumPurple">
+            <Label DockPanel.Dock="Left" Foreground="White" FontSize="20"
+                   Content="{Binding CurrentUser.Name}"
+                   ContentStringFormat="Logged in as {0}"></Label>
+            <Label DockPanel.Dock="Right" Foreground="White" FontSize="20" Content="{Binding Date}"/>
+        </DockPanel>
+        
+        <!-- Row 2 -->
+        <TabControl Grid.Row="2" 
+                    x:Name="sideTab"
+                    IsSynchronizedWithCurrentItem="True"
+                    TabStripPlacement="Left"
+                    SelectionChanged="SideTab_SelectionChanged">
+            <TabControl.Resources>
+                <Style TargetType="{x:Type Grid}">
+                    <Setter Property="Background" Value="#5a5782"/>
+                </Style>
+                <Style TargetType="{x:Type TabPanel}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+            </TabControl.Resources>
+            <TabItem Header="Add Staff" Style="{StaticResource purpleTab}">
+                <Border BorderBrush="Gray" BorderThickness="0,0,0,0" Margin="0,0,50,0">
+                    <Grid Background="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Image Source="Images\staff.png" Height="200" Width="200" Margin="20"/>
+                        <StackPanel Grid.Row="1">
+                            <TextBox x:Name="usernameBox" Width="260" Tag="User name" Style="{StaticResource username}" Margin="5"/>
+                            <PasswordBox x:Name="passwordBox" PasswordChanged="passwordBox_PasswordChanged" Width="260" Tag="False" Margin="5"></PasswordBox>
+                        </StackPanel>
+
+                        <StackPanel x:Name="positionBtnPanel" Grid.Row="2" Orientation="Horizontal" Margin="0,15,0,15">
+                            <RadioButton x:Name="normalStaffRB" 
+                                         Tag="Staff"
+                                         Style="{StaticResource addStaffRadioBtn}"
+                                         GroupName="staffPosition"
+                                         IsChecked="True"
+                                         >Normal Staff</RadioButton>
+                            <RadioButton x:Name="supervisorRB" 
+                                         Tag="Supervisor"
+                                         Style="{StaticResource addStaffRadioBtn}"
+                                         GroupName="staffPosition"
+                                         >Supervisor</RadioButton>
+                        </StackPanel>
+                        
+                        <Button Click="submitAddStaff"
+                                IsDefault="True"
+                                Grid.Row="3" 
+                                Margin="0 30 0 0" 
+                                Style="{StaticResource borderlessBtn}" 
+                                Width="260" Height="100" 
+                                Content="SUBMIT">
+                            <Button.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="toastMsg"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="1"
+                                                             Duration="0:0:0.75"
+                                                             AutoReverse="True"
+                                                             />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Button.Triggers>
+                        </Button>
+                        <Label x:Name="toastMsg" 
+                               Content="{Binding AddStaffStatusMessage}"
+                               Grid.Row="4"
+                               MinHeight="50"
+                               Margin="0,50,0,0"
+                               Style="{StaticResource toast}" />
+                    </Grid>
+                </Border>
+            </TabItem>
+            <TabItem Header="Modify Staff" Style="{StaticResource purpleTab}">
+                <Border>
+                    <Grid Background="White" Margin="20">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ListView Grid.Row="0"
+                                  x:Name="staffList"
+                                  ItemsSource="{Binding StaffList}"
+                                  IsSynchronizedWithCurrentItem="True">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.View>
+                                <GridView>
+                                    <GridView.ColumnHeaderContainerStyle>
+                                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                                            <Setter Property="FontSize" Value="20"/>
+                                            <Setter Property="FontWeight" Value="SemiBold"/>
+                                            <Setter Property="Foreground" Value="Purple"/>
+                                            <Setter Property="FontFamily" Value="Fonts\Billabong.ttf"/>
+                                        </Style>
+                                    </GridView.ColumnHeaderContainerStyle>
+                                    <GridViewColumn Header="Staff Name" DisplayMemberBinding="{Binding Name}" Width="400"/>
+                                    <GridViewColumn Header="Position" DisplayMemberBinding="{Binding Position}" Width="400"/>
+                                    <GridViewColumn Header="Joining Date" DisplayMemberBinding="{Binding JoinedDate}" Width="450"/>
+                                    <!--<GridViewColumn Header="Leaving Date" DisplayMemberBinding="{Binding LeaveDateTime}" Width="400"/>-->
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <StackPanel Grid.Row="1"
+                                   Margin="0,10,10,10"
+                                   MinHeight="100" 
+                                   >
+                            <Button Command="{Binding RemoveStaffCommand}"
+                                    CommandParameter="{Binding ElementName=staffList, Path=SelectedIndex}"
+                                    Style="{StaticResource blackThemeBtn}" 
+                                    MaxWidth="350"
+                                    Margin="5">Remove</Button>
+                            
+                            <Button Command="{Binding PromoteStaffCommand}"
+                                    CommandParameter="{Binding ElementName=staffList, Path=SelectedIndex}"
+                                    Style="{StaticResource blackThemeBtn}"
+                                    MaxWidth="350"
+                                    Margin="5">Promote</Button>
+
+                            <Button Command="{Binding DerankStaffCommand}"
+                                    CommandParameter="{Binding ElementName=staffList, Path=SelectedIndex}"
+                                    Style="{StaticResource blackThemeBtn}"
+                                    MaxWidth="350"
+                                    Margin="5">Derank</Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </TabItem>
+            <TabItem Header="Modify Menu" Style="{StaticResource purpleTab}">
+                <Border>
+                    <Grid Background="White">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TabControl x:Name="menuTab"
+                                    Grid.Row="0"
+                                    SelectedIndex="{Binding MenuTabIndex}"
+                                    HorizontalAlignment="Stretch" 
+                                    SelectionChanged="MenuChoiceTabChanged">
+                            <TabItem Style="{StaticResource blueTabButton}" Header="Appetizer"/>
+                            <TabItem Style="{StaticResource blueTabButton}" Header="Main Dishes"/>
+                            <TabItem Style="{StaticResource blueTabButton}" Header="Beverages"/>
+                            <TabItem Style="{StaticResource blueTabButton}" Header="Desserts"/>
+                            <TabItem Style="{StaticResource blueTabButton}" Header="Others"/>
+                        </TabControl>
+                        <ListView x:Name="productList" Grid.Row="1" Margin="5" ItemsSource="{Binding ProductList}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Item Name" Width="700">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Name}"
+                                                       FontSize="20"
+                                                       Foreground="#FF042271"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Price" Width="450">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Price}" 
+                                                       ContentStringFormat="RM {0:F2}"
+                                                       FontSize="20"
+                                                       Foreground="#FF042271"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridView.ColumnHeaderContainerStyle>
+                                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                                            <Setter Property="FontSize" Value="20"/>
+                                            <Setter Property="FontWeight" Value="SemiBold"/>
+                                            <Setter Property="Foreground" Value="Purple"/>
+                                            <Setter Property="FontFamily" Value="Fonts\Billabong.ttf"/>
+                                        </Style>
+                                    </GridView.ColumnHeaderContainerStyle>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <Grid Grid.Row="2" MinHeight="70" Background="White">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" 
+                                    Command="{Binding AddProductCommand}"
+                                    Style="{StaticResource blackThemeBtn}" 
+                                    Margin="5"
+                                    >Add Product</Button>
+                            <Button Grid.Column="1" 
+                                    Style="{StaticResource blackThemeBtn}" 
+                                    Margin="5"
+                                    Command="{Binding ChangePriceCommand}"
+                                    CommandParameter="{Binding ElementName=productList, Path=SelectedIndex}"
+                                    >Change Price</Button>
+                            <Button Grid.Column="2"
+                                    Command="{Binding DeleteProductCommand}"
+                                    CommandParameter="{Binding ElementName=productList, Path=SelectedIndex}"
+                                    Style="{StaticResource blackThemeBtn}" 
+                                    Margin="5"
+                                    >Delete Product</Button>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </TabItem>
+            
+            <!-- Report -->
+            <TabItem Header="Report" Style="{StaticResource purpleTab}">
+                <Border>
+                    <Grid Background="White">
+                        <TabControl HorizontalAlignment="Stretch">
+                            
+                            <!-- Monthly Sales-->
+                            <TabItem Style="{StaticResource blueTabButton}" Header="Monthly Sales">
+                                <Grid Margin="5" Background="White">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <DockPanel Grid.Row="0">
+                                        <Label DockPanel.Dock="Left"
+                                               Margin="5,0,15,0"
+                                               FontFamily="Fonts\Roboto-Regular.ttf"
+                                               Foreground="Purple"
+                                               FontWeight="Medium">Month/Year :</Label>
+                                        <DatePicker
+                                               x:Name="monthlySalesDatePicker"
+                                               local:DatePickerCalendar.IsMonthYear="True"
+                                               SelectedDate="{Binding MonthlySalesDate}"                                            
+                                               CalendarStyle="{StaticResource biggerCalendar}"
+                                                />
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="1" LastChildFill="False">
+                                        <Label DockPanel.Dock="Left"
+                                               Margin="5"
+                                               FontWeight="Medium"
+                                               Foreground="Purple">Filter</Label>
+                                        <ComboBox 
+                                            SelectedIndex="0"
+                                            SelectedItem="{Binding FilterChoice}"
+                                            ItemsSource="{Binding FilterCollection}"
+                                            MinWidth="200" MaxHeight="40" Margin="110,5,0,0">
+                                            <ComboBox.ItemContainerStyle>
+                                                <Style TargetType="{x:Type ComboBoxItem}">
+                                                    <Setter Property="FontWeight" Value="Regular"/>
+                                                </Style>
+                                            </ComboBox.ItemContainerStyle>
+                                            
+                                        </ComboBox>
+                                    </DockPanel>
+
+                                    <Label Grid.Row="2"
+                                           MinHeight="25"
+                                           Content="{Binding MonthlySalesMonthLabel}"     
+                                           HorizontalContentAlignment="Center"
+                                           FontWeight="Medium"/>
+
+                                    <ListView Grid.Row="3"
+                                              ItemsSource="{Binding ProductsSoldShown}"
+                                              IsSynchronizedWithCurrentItem="True"
+                                              Margin="10,10,10,10">
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="{x:Type ListViewItem}">
+                                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                <Setter Property="Foreground" Value="Black"/>
+                                                <Setter Property="FontSize" Value="24"/>
+                                                <Setter Property="FontWeight" Value="Regular"/>
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridView.ColumnHeaderContainerStyle>
+                                                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                        <Setter Property="FontSize" Value="20"/>
+                                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                                        <Setter Property="Foreground" Value="Purple"/>
+                                                        <Setter Property="FontFamily" Value="Fonts\Billabong.ttf"/>
+                                                    </Style>
+                                                </GridView.ColumnHeaderContainerStyle>
+                                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="450"/>
+                                                <GridViewColumn Header="Sales (RM)" DisplayMemberBinding="{Binding TotalSale, StringFormat={}{0:F2}}" Width="300"/>
+                                                <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding QuantitySold}" Width="300"/>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+
+                                    <Button Grid.Row="4" Style="{StaticResource blackThemeBtn}"
+                                            Visibility="Collapsed"
+                                            FontWeight="Regular">Export </Button>
+                                </Grid>
+                            </TabItem>
+                            
+                            <!-- Top Products -->
+                            <TabItem Header="Top Products"
+                                     Style="{StaticResource blueTabButton}">
+                                <Grid Margin="5" Background="White">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <DockPanel Grid.Row="0">
+                                            <Label DockPanel.Dock="Left"
+                                               Margin="5,0,15,0"
+                                               Foreground="Purple"
+                                               FontWeight="Medium">Month/Year:</Label>
+                                            <DatePicker
+                                                x:Name="productSalesDatePicker"
+                                                local:DatePickerCalendar.IsMonthYear="True"
+                                                SelectedDate="{Binding ReportDate}"                                                      
+                                                Grid.ColumnSpan="2"
+                                                CalendarStyle="{StaticResource biggerCalendar}"
+                                                />
+                                        </DockPanel>
+                                    
+                                    <Grid Grid.Row="1"
+                                          Grid.Column="0"
+                                          Background="White"
+                                          Margin="10,20,10,20">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Label x:Name="topProdMonthlbl" 
+                                               Content="{Binding TopProductMonthLabel}"
+                                               Grid.Row="0" 
+                                               MinHeight="25"
+                                               Margin="5"
+                                               FontFamily="Fonts\Robotto-Regular.ttf"
+                                               HorizontalAlignment="Center"/>
+                                        <Image x:Name="pieChartImage" 
+                                               Source="{Binding PieChartImg}"
+                                               Grid.Row="1" 
+                                               Visibility="{Binding ShowPieChart, Converter={StaticResource booleanToVisibilityConverter}}"
+                                               MinWidth="{Binding PieWidth}" 
+                                               MinHeight="{Binding PieHeight}"/>
+                                        <Label Grid.Row="2"
+                                           Content="{Binding TotalTopSales}"
+                                           ContentStringFormat="Total sales: RM {0:F2}"
+                                           Margin="5"
+                                           FontFamily="Fonts\Robotto-Regular.ttf"
+                                           FontSize="24"
+                                           HorizontalContentAlignment="Center"/>
+                                    </Grid>
+                                    
+                                    <GroupBox Grid.Row="1"
+                                              Grid.Column="1"
+                                              Header="Legend" FontFamily="Verdana"
+                                              BorderBrush="Gray" BorderThickness="4"
+                                              Foreground="DarkSlateBlue">
+                                        <ListBox x:Name="legendListbox"
+                                                 ItemsSource="{Binding TopProducts, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                 IsSynchronizedWithCurrentItem="True"
+                                                 Visibility="{Binding ShowLegendListBox, Converter={StaticResource booleanToVisibilityConverter}}"
+                                                 BorderThickness="0"
+                                                 Background="#DCDCDC">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Ellipse Width="20" Height="20" Fill="{Binding Brush}" Margin="5"/>
+                                                            <Label Content="{Binding Name}"
+                                                                   FontSize="24"
+                                                                   FontFamily="Fonts\Robotto-Regular.ttf"/>
+                                                            
+                                                            <Label Content="{Binding TotalSale}" 
+                                                                   ContentStringFormat=": RM {0:F2}"
+                                                                   FontFamily="Fonts\Robotto-Regular.ttf"
+                                                                   FontSize="20"
+                                                                   VerticalContentAlignment="Center"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </GroupBox>
+                                    
+                                </Grid>
+                                
+                            </TabItem>
+                        </TabControl>
+                    </Grid>
+                </Border>
+            </TabItem>
+            <TabItem Header="Return" Style="{StaticResource purpleTab}"/>
+        </TabControl>
+    </Grid>
+</Window>

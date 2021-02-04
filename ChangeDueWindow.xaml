@@ -1,0 +1,103 @@
+﻿<Window x:Class="FlamyPOS.ChangeDueWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FlamyPOS"
+        mc:Ignorable="d"
+        Title="ChangeDueWindow" Height="475" Width="500"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResizeWithGrip">
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Duration="0:0:.5" Storyboard.TargetProperty="Top" From="0" To="237.5" AccelerationRatio=".3"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+
+    <Window.Resources>
+        <LinearGradientBrush x:Key="orangeBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#ffcc80" Offset="0"/>
+            <GradientStop Color="#ffc947" Offset="0.2"/>
+            <GradientStop Color="#ff9800" Offset="0.5"/>
+            <GradientStop Color="Orange" Offset="0.8"/>
+            <GradientStop Color="#e65100" Offset="1"/>
+        </LinearGradientBrush>
+
+        <Style x:Key="orangeButton" TargetType="{x:Type Button}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="FontFamily" Value="Fonts\Billabong.ttf"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border
+                             CornerRadius="30"
+                             Background="{StaticResource orangeBrush}"
+                             BorderBrush="{StaticResource orangeBrush}"
+                             BorderThickness="2" >
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect BlurRadius="20" 
+                                                          ShadowDepth="10"
+                                                          Color="Orange"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    
+    <Border BorderBrush="Black" BorderThickness="1" Background="Cornsilk">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Height="15" Background="#c67100"/>
+            <Label Grid.Row="1" Background="#ffa000" Foreground="White" FontSize="26"  HorizontalContentAlignment="Center">Change Due</Label>
+            <Image Grid.Row="2" Source="Images\currency.png" 
+                   MaxHeight="100" 
+                   MaxWidth="250"/>
+
+            <Border Grid.Row="3"    
+                    Background="AntiqueWhite"
+                    BorderThickness="2" 
+                    Margin="75 0 75 20">
+                <Label Grid.Row="3"                                           
+                       Content="{Binding ChangeDue}"
+                       ContentStringFormat="RM {0:F2}"                      
+                       Foreground="Gray"
+                       FontSize="26"
+                       MinHeight="100"
+                       FontWeight="Medium"
+                       VerticalContentAlignment="Center"
+                       HorizontalAlignment="Center" >
+                </Label>
+            </Border>
+            
+            <Button Grid.Row="4" 
+                    Command="{Binding ReturnCommand}"
+                    MinHeight="80"
+                    FontSize="32"
+                    Margin="150 0 150 20"
+                    Style="{StaticResource orangeButton}">OK</Button>
+        </Grid>
+    </Border>
+</Window>
